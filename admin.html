@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Student  Campaign</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <h1>Admin Panel</h1>
+            <a href="index.html" class="home-btn">Back to Home</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="admin-section">
+            <h2>Manage Pros List</h2>
+            <div class="pros-editor">
+                <textarea id="prosText" rows="10" placeholder="Enter each pro on a new line"></textarea>
+                <button id="savePros" class="submit-btn">Save Pros List</button>
+            </div>
+        </section>
+
+        <section class="admin-section">
+            <h2>View Suggestions</h2>
+            <div id="suggestionsList" class="suggestions-list">
+                <!-- Suggestions will be loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html> 
