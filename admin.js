@@ -1,10 +1,14 @@
 // DOM Elements
 const prosText = document.getElementById('prosText');
-const saveProsBtn = document.getElementById('savePros');
+const consText = document.getElementById('consText');
+const saveListsBtn = document.getElementById('saveLists');
 const suggestionsList = document.getElementById('suggestionsList');
+const descriptionEdit = document.getElementById('descriptionEdit');
+const saveDescriptionBtn = document.getElementById('saveDescription');
 
-// Load pros list from localStorage
-function loadProsList() {
+// Load pros and cons lists from localStorage
+function loadLists() {
+    // Load pros
     const savedPros = localStorage.getItem('prosList');
     if (savedPros) {
         prosText.value = JSON.parse(savedPros).join('\n');
@@ -19,20 +23,39 @@ function loadProsList() {
         ];
         prosText.value = defaultPros.join('\n');
     }
+
+    // Load cons
+    const savedCons = localStorage.getItem('consList');
+    if (savedCons) {
+        consText.value = JSON.parse(savedCons).join('\n');
+    } else {
+        // Default cons if none exist
+        const defaultCons = [
+            "New to student government",
+            "Learning curve for some responsibilities"
+        ];
+        consText.value = defaultCons.join('\n');
+    }
 }
 
-// Save pros list to localStorage
-saveProsBtn.addEventListener('click', () => {
-    const newContent = prosText.value
+// Save pros and cons lists to localStorage
+saveListsBtn.addEventListener('click', () => {
+    const newPros = prosText.value
         .split('\n')
         .map(line => line.trim())
         .filter(line => line.length > 0);
     
-    if (newContent.length > 0) {
-        localStorage.setItem('prosList', JSON.stringify(newContent));
-        alert('Pros list updated successfully!');
+    const newCons = consText.value
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+    
+    if (newPros.length > 0 && newCons.length > 0) {
+        localStorage.setItem('prosList', JSON.stringify(newPros));
+        localStorage.setItem('consList', JSON.stringify(newCons));
+        alert('Lists updated successfully!');
     } else {
-        alert('Please enter at least one item');
+        alert('Please enter at least one item in each list');
     }
 });
 
@@ -67,6 +90,18 @@ function loadSuggestions() {
     });
 }
 
+// Load description from localStorage
+function loadDescription() {
+    const savedDescription = localStorage.getItem('descriptionText');
+    descriptionEdit.value = savedDescription ? savedDescription : '';
+}
+
+saveDescriptionBtn.addEventListener('click', () => {
+    localStorage.setItem('descriptionText', descriptionEdit.value.trim());
+    alert('Description updated successfully!');
+});
+
 // Initialize
-loadProsList();
+loadDescription();
+loadLists();
 loadSuggestions(); 

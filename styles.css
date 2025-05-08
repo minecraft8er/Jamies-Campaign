@@ -1,9 +1,16 @@
 :root {
-    --primary-color: #4a90e2;
-    --secondary-color: #2c3e50;
-    --background-color: #f5f6fa;
-    --text-color: #2c3e50;
+    --primary-color: #6c5ce7;  /* Bright purple */
+    --primary-light: #a29bfe;  /* Light purple */
+    --secondary-color: #1a237e;  /* Dark blue for text */
+    --background-color: #f3e5f5;  /* Very light purple background */
+    --text-color: #1a237e;  /* Dark blue text */
     --border-radius: 8px;
+    --accent-color: #e84393;  /* Pink */
+    --accent-light: #fd79a8;  /* Light pink */
+    --box-shadow: 0 4px 6px rgba(108, 92, 231, 0.1);
+    --card-bg: #e8eaf6;  /* Light purple card background */
+    --card-gradient: linear-gradient(135deg, #e8eaf6, #f3e5f5);  /* Light purple gradient */
+    --card-gradient-alt: linear-gradient(135deg, #ede7f6, #f3e5f5);  /* Alternative light purple gradient */
 }
 
 * {
@@ -16,12 +23,18 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background-color: var(--background-color);
+    background: linear-gradient(135deg, var(--background-color), #e8eaf6);
+    min-height: 100vh;
+}
+
+nav, main {
+    position: relative;
+    z-index: 1;
 }
 
 nav {
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    box-shadow: var(--box-shadow);
     padding: 1rem 0;
     position: sticky;
     top: 0;
@@ -39,7 +52,8 @@ nav {
 
 nav h1 {
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .nav-buttons {
@@ -49,30 +63,32 @@ nav h1 {
 }
 
 .suggestion-btn, .home-btn {
-    background-color: var(--primary-color);
+    background-color: var(--accent-light);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
     text-decoration: none;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .suggestion-btn:hover, .home-btn:hover {
-    background-color: #357abd;
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
 .admin-btn {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-light);
     color: white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .admin-btn:hover {
-    background-color: #1a252f;
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
 main {
@@ -82,16 +98,18 @@ main {
 }
 
 section {
-    background-color: white;
+    background: var(--card-gradient);
     border-radius: var(--border-radius);
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: var(--box-shadow);
+    border: 1px solid rgba(108, 92, 231, 0.1);
 }
 
 h2 {
-    color: var(--secondary-color);
+    color: var(--primary-color);
     margin-bottom: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .video-container {
@@ -137,18 +155,19 @@ h2 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(108, 92, 231, 0.5);
     z-index: 1001;
 }
 
 .modal-content {
-    background-color: white;
+    background: var(--card-gradient-alt);
     margin: 15% auto;
     padding: 2rem;
     border-radius: var(--border-radius);
     max-width: 400px;
     position: relative;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
+    border: 1px solid rgba(108, 92, 231, 0.1);
 }
 
 .close {
@@ -157,12 +176,12 @@ h2 {
     top: 1rem;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #666;
+    color: var(--primary-color);
     transition: color 0.3s;
 }
 
 .close:hover {
-    color: #333;
+    color: var(--accent-color);
 }
 
 .login-form {
@@ -174,15 +193,19 @@ h2 {
 
 .login-form input {
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--primary-light);
     border-radius: var(--border-radius);
     font-size: 1rem;
+    transition: all 0.3s;
+    background-color: white;
+    color: var(--text-color);
 }
 
 .login-form input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+    background-color: white;
 }
 
 .password-section, .edit-section {
@@ -207,20 +230,31 @@ input[type="password"], textarea {
 textarea {
     resize: vertical;
     min-height: 150px;
+    background-color: white;
+    color: var(--text-color);
+    border: 1px solid var(--primary-light);
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+    background-color: white;
 }
 
 .submit-btn {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .submit-btn:hover {
-    background-color: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
 }
 
 .submission-message {
@@ -256,12 +290,14 @@ textarea {
 }
 
 .suggestion-item {
-    background-color: #f8f9fa;
+    background: var(--card-gradient-alt);
     padding: 1rem;
     border-radius: var(--border-radius);
     display: flex;
     align-items: flex-start;
     gap: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(108, 92, 231, 0.1);
 }
 
 .suggestion-number {
@@ -272,24 +308,171 @@ textarea {
 
 .suggestion-text {
     flex-grow: 1;
+    color: var(--secondary-color);
 }
 
 .delete-btn {
-    background-color: #dc3545;
+    background-color: var(--accent-light);
     color: white;
     border: none;
     padding: 0.25rem 0.5rem;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .delete-btn:hover {
-    background-color: #c82333;
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
 .no-suggestions {
     text-align: center;
-    color: #6c757d;
+    color: var(--primary-light);
     padding: 2rem;
-} 
+}
+
+/* Floating Video Button */
+.floating-video-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.floating-video-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+}
+
+.video-icon {
+    font-size: 1.2rem;
+}
+
+/* Make the button responsive */
+@media (max-width: 768px) {
+    .floating-video-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Pros and Cons Section */
+.pros-cons-section {
+    margin-bottom: 2rem;
+}
+
+.pros-cons-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.pros-box, .cons-box {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: 1px solid rgba(108, 92, 231, 0.1);
+}
+
+.pros-box h3, .cons-box h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.pros-list, .cons-list {
+    line-height: 1.8;
+}
+
+.pros-list p {
+    color: var(--primary-color);
+}
+
+.cons-list p {
+    color: var(--accent-color);
+}
+
+/* Admin Editor Styles */
+.pros-cons-editor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.editor-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.editor-box h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+#saveLists {
+    grid-column: 1 / -1;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .pros-cons-container,
+    .pros-cons-editor {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Admin Section Video Button */
+.video-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    transition: all 0.3s;
+    margin-top: 1rem;
+}
+
+.video-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.admin-note {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+/* Description text under heading */
+.description-text {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    text-align: left;
+    font-weight: 400;
+}

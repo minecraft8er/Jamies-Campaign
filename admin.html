@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Student  Campaign</title>
+    <title>Admin Panel - Student President Campaign</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,10 +16,22 @@
 
     <main>
         <section class="admin-section">
-            <h2>Manage Pros List</h2>
-            <div class="pros-editor">
-                <textarea id="prosText" rows="10" placeholder="Enter each pro on a new line"></textarea>
-                <button id="savePros" class="submit-btn">Save Pros List</button>
+            <h2>Page Description</h2>
+            <textarea id="descriptionEdit" rows="3" placeholder="Enter a short description for the main page..."></textarea>
+            <button id="saveDescription" class="submit-btn">Save Description</button>
+        </section>
+        <section class="admin-section">
+            <h2>Manage Pros and Cons</h2>
+            <div class="pros-cons-editor">
+                <div class="editor-box">
+                    <h3>Pros List</h3>
+                    <textarea id="prosText" rows="10" placeholder="Enter each pro on a new line"></textarea>
+                </div>
+                <div class="editor-box">
+                    <h3>Cons List</h3>
+                    <textarea id="consText" rows="10" placeholder="Enter each con on a new line"></textarea>
+                </div>
+                <button id="saveLists" class="submit-btn">Save Changes</button>
             </div>
         </section>
 
@@ -28,6 +40,15 @@
             <div id="suggestionsList" class="suggestions-list">
                 <!-- Suggestions will be loaded here -->
             </div>
+        </section>
+
+        <section class="admin-section">
+            <h2>Campaign Speech</h2>
+            <p class="admin-note">The campaign speech video will be available here once it's ready.</p>
+            <a href="speech.html" class="video-btn">
+                <span class="video-icon">▶</span>
+                Watch Campaign Speech
+            </a>
         </section>
     </main>
 
