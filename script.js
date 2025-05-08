@@ -117,7 +117,7 @@ const decorativeImages = [
     'images/green-star.png',
     'images/blue-star.png',
     'images/green-peace.png',
-    'images/felt-star.png'
+    'images/felt-star.png',
 ];
 
 function scatterDecorativeBackground() {
