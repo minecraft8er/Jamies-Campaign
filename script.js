@@ -1,7 +1,7 @@
 // Admin credentials
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'Jamie123';
-const JSONBIN_API_KEY = '681fa7898e451c79651dfa7f';
+const JSONBIN_API_KEY = '$2a$10$M8uL7vYMjP82XZDXsyIKE.0Lrv1c/1D0lN3EKp01Z9C.N/hDWxP86';
 const JSONBIN_BIN_ID = '681fa7b98a456b79669b21b1';
 
 // DOM Elements
