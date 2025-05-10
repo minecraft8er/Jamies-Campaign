@@ -17,22 +17,26 @@
     <main>
         <section class="admin-section">
             <h2>Page Description</h2>
-            <textarea id="descriptionEdit" rows="3" placeholder="Enter a short description for the main page..."></textarea>
-            <button id="saveDescription" class="submit-btn">Save Description</button>
+            <textarea id="descriptionEditor" rows="3" placeholder="Enter a short description for the main page..."></textarea>
+            <button id="saveBtn" class="submit-btn">Save All Changes</button>
         </section>
         <section class="admin-section">
             <h2>Manage Pros and Cons</h2>
             <div class="pros-cons-editor">
                 <div class="editor-box">
                     <h3>Pros List</h3>
-                    <textarea id="prosText" rows="10" placeholder="Enter each pro on a new line"></textarea>
+                    <textarea id="prosEditor" rows="10" placeholder="Enter each pro on a new line"></textarea>
                 </div>
                 <div class="editor-box">
                     <h3>Cons List</h3>
-                    <textarea id="consText" rows="10" placeholder="Enter each con on a new line"></textarea>
+                    <textarea id="consEditor" rows="10" placeholder="Enter each con on a new line"></textarea>
                 </div>
-                <button id="saveLists" class="submit-btn">Save Changes</button>
             </div>
+        </section>
+
+        <section class="admin-section">
+            <h2>Campaign Platform</h2>
+            <textarea id="platformEditor" rows="10" placeholder="Enter the campaign platform text..."></textarea>
         </section>
 
         <section class="admin-section">
@@ -52,6 +56,40 @@
         </section>
     </main>
 
-    <script src="admin.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Load current data
+        async function loadCurrentData() {
+            const data = await loadData();
+            if (data) {
+                document.getElementById('prosEditor').value = data.pros ? data.pros.join('\n') : '';
+                document.getElementById('consEditor').value = data.cons ? data.cons.join('\n') : '';
+                document.getElementById('descriptionEditor').value = data.description || '';
+                document.getElementById('platformEditor').value = data.platform || '';
+            }
+        }
+
+        // Save all changes
+        async function saveAllChanges() {
+            const pros = document.getElementById('prosEditor').value.split('\n').filter(line => line.trim());
+            const cons = document.getElementById('consEditor').value.split('\n').filter(line => line.trim());
+            const description = document.getElementById('descriptionEditor').value;
+            const platform = document.getElementById('platformEditor').value;
+
+            const success = await saveLists(pros, cons, description);
+            if (success) {
+                await savePlatformText(platform);
+                alert('Changes saved successfully!');
+            } else {
+                alert('Error saving changes. Please try again.');
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadCurrentData();
+            document.getElementById('saveBtn').addEventListener('click', saveAllChanges);
+        });
+    </script>
 </body>
 </html> 

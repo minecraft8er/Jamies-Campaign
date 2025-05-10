@@ -1,6 +1,8 @@
 // Admin credentials
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'Jamie123';
+const JSONBIN_API_KEY = '681fa7898e451c79651dfa7f';
+const JSONBIN_BIN_ID = '681fa7b98a456b79669b21b1';
 
 // DOM Elements
 const adminLoginBtn = document.getElementById('adminLoginBtn');
@@ -13,53 +15,125 @@ const prosList = document.getElementById('prosList');
 const consList = document.getElementById('consList');
 const descriptionDiv = document.getElementById('descriptionText');
 
-// Load pros and cons lists from localStorage
-function loadLists() {
-    // Load pros
-    const savedPros = localStorage.getItem('prosList');
-    if (savedPros) {
-        const pros = JSON.parse(savedPros);
-        prosList.innerHTML = pros.map(pro => `<p>• ${pro}</p>`).join('');
-    } else {
-        // Default pros if none exist
-        const defaultPros = [
-            "Strong leadership skills and experience",
-            "Dedicated to improving student life",
-            "Open to feedback and suggestions",
-            "Clear vision for positive change",
-            "Excellent communication skills"
-        ];
-        prosList.innerHTML = defaultPros.map(pro => `<p>• ${pro}</p>`).join('');
-    }
-
-    // Load cons
-    const savedCons = localStorage.getItem('consList');
-    if (savedCons) {
-        const cons = JSON.parse(savedCons);
-        consList.innerHTML = cons.map(con => `<p>• ${con}</p>`).join('');
-    } else {
-        // Default cons if none exist
-        const defaultCons = [
-            "New to student government",
-            "Learning curve for some responsibilities"
-        ];
-        consList.innerHTML = defaultCons.map(con => `<p>• ${con}</p>`).join('');
+// Load data from JSONbin.io
+async function loadData() {
+    try {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+            headers: {
+                'X-Master-Key': JSONBIN_API_KEY
+            }
+        });
+        const data = await response.json();
+        console.log('Loaded data:', data.record);
+        return data.record;
+    } catch (error) {
+        console.error('Error loading data:', error);
+        return null;
     }
 }
 
-function loadDescription() {
-    const savedDescription = localStorage.getItem('descriptionText');
-    descriptionDiv.textContent = savedDescription ? savedDescription : '';
+// Save data to JSONbin.io
+async function saveData(data) {
+    try {
+        console.log('Saving data:', data);
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': JSONBIN_API_KEY
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log('Save response:', result);
+        return true;
+    } catch (error) {
+        console.error('Error saving data:', error);
+        return false;
+    }
+}
+
+// Load pros and cons lists
+async function loadLists() {
+    const data = await loadData();
+    if (data) {
+        // Load pros
+        if (data.pros && Array.isArray(data.pros)) {
+            prosList.innerHTML = data.pros.map(pro => `<p>• ${pro}</p>`).join('');
+        } else {
+            // Default pros if none exist
+            const defaultPros = [
+                "Strong leadership skills and experience",
+                "Dedicated to improving student life",
+                "Open to feedback and suggestions",
+                "Clear vision for positive change",
+                "Excellent communication skills"
+            ];
+            prosList.innerHTML = defaultPros.map(pro => `<p>• ${pro}</p>`).join('');
+        }
+
+        // Load cons
+        if (data.cons && Array.isArray(data.cons)) {
+            consList.innerHTML = data.cons.map(con => `<p>• ${con}</p>`).join('');
+        } else {
+            // Default cons if none exist
+            const defaultCons = [
+                "New to student government",
+                "Learning curve for some responsibilities"
+            ];
+            consList.innerHTML = defaultCons.map(con => `<p>• ${con}</p>`).join('');
+        }
+
+        // Load description
+        if (data.description) {
+            descriptionDiv.textContent = data.description;
+        }
+    }
+}
+
+// Save pros and cons lists
+async function saveLists(pros, cons, description) {
+    const data = await loadData() || {};
+    data.pros = pros;
+    data.cons = cons;
+    data.description = description;
+    return await saveData(data);
+}
+
+// Load campaign platform text
+async function loadPlatformText() {
+    const data = await loadData();
+    if (data && data.platform) {
+        document.getElementById('platformText').innerHTML = data.platform;
+    } else {
+        const defaultPlatform = `Graduation: for our class' graduation, I believe it would be best to change some things. This would include walking down the aisle with somebody else being changed to walking by yourself, and changing the gowns so that we all wear the same thing.<br><br>
+        
+        Hat day: I think it would be much more financially affective to have a hat day every day. People could pay to wear a hat every day and if an organization doesnt sign up for a day then the money can go to the school.<br><br>
+        
+        Fix winter carnival: a lot of people were stressed by winter carnival this year. Our class had a major lack of participation which cause a huge loss of points. As hopes of solution I plan to organize things more ahead of time and also propose changing the point system a little bit. I also think letting class members outside of winter carnival vote for themes and such so not just student government gets to choose.<br><br>
+        
+        Work on class trip: I have lots of ideas for class trips. If we could raise enough money, I think we could have an awesome class trip and I am more than willing to have class trip ideas from other people too.<br><br>
+        
+        Add another school dance: I think having a silent disco style dance in the spring that is all grades (a spring fling) would be a wonderful idea. FIRST of all the silent disco portion could be really inclusive for the special needs kids that get too overwhelmed at school dances. Second of all having a spring dance open to everybody could make prom upperclassmen only likd most schools do. This will give more spotlight to the people close to graduating. The money raised from this extra dance could go to our class`;
+        document.getElementById('platformText').innerHTML = defaultPlatform;
+    }
+}
+
+// Save campaign platform text
+async function savePlatformText(text) {
+    const data = await loadData() || {};
+    data.platform = text;
+    return await saveData(data);
 }
 
 // Show login modal
-adminLoginBtn.addEventListener('click', () => {
+adminLoginBtn?.addEventListener('click', () => {
     loginModal.style.display = 'block';
     usernameInput.focus();
 });
 
 // Close modal
-closeBtn.addEventListener('click', () => {
+closeBtn?.addEventListener('click', () => {
     loginModal.style.display = 'none';
     usernameInput.value = '';
     passwordInput.value = '';
@@ -75,7 +149,7 @@ window.addEventListener('click', (e) => {
 });
 
 // Handle login
-loginBtn.addEventListener('click', () => {
+loginBtn?.addEventListener('click', () => {
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
 
@@ -87,15 +161,21 @@ loginBtn.addEventListener('click', () => {
 });
 
 // Handle Enter key in password field
-passwordInput.addEventListener('keypress', (e) => {
+passwordInput?.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         loginBtn.click();
     }
 });
 
-// Initialize lists display
-loadLists();
-loadDescription();
+// Initialize data when page loads
+document.addEventListener('DOMContentLoaded', async function() {
+    if (prosList && consList && descriptionDiv) {
+        await loadLists();
+    }
+    if (document.getElementById('platformText')) {
+        await loadPlatformText();
+    }
+});
 
 // Decorative background images (scattered among the stars)
 const decorativeImages = [
@@ -117,7 +197,7 @@ const decorativeImages = [
     'images/green-star.png',
     'images/blue-star.png',
     'images/green-peace.png',
-    'images/felt-star.png',
+    'images/felt-star.png'
 ];
 
 function scatterDecorativeBackground() {
@@ -185,4 +265,25 @@ function scatterDecorativeBackground() {
 
 window.addEventListener('DOMContentLoaded', () => {
     scatterDecorativeBackground();
+});
+
+// Add platform editing functionality to admin page
+function addPlatformEditor() {
+    const platformSection = document.createElement('div');
+    platformSection.className = 'admin-section';
+    platformSection.innerHTML = `
+        <h3>Edit Campaign Platform</h3>
+        <textarea id="platformEditor" rows="6" style="width: 100%;">${localStorage.getItem('campaignPlatform') || ''}</textarea>
+        <button onclick="savePlatformText(document.getElementById('platformEditor').value)" class="submit-btn">Save Platform</button>
+    `;
+    document.querySelector('.admin-content').appendChild(platformSection);
+}
+
+// Initialize platform text when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadPlatformText();
+    // Add platform editor to admin page if we're on the admin page
+    if (document.querySelector('.admin-content')) {
+        addPlatformEditor();
+    }
 });
