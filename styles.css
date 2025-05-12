@@ -375,18 +375,18 @@ textarea:focus {
 }
 
 .pros-cons-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 2rem;
-    margin-top: 1.5rem;
+    align-items: flex-start;
+    position: relative;
 }
 
 .pros-box, .cons-box {
-    background: rgba(255, 255, 255, 0.5);
+    flex: 1;
+    background: var(--card-gradient);
     padding: 1.5rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    border: 1px solid rgba(108, 92, 231, 0.1);
 }
 
 .pros-box h3, .cons-box h3 {
@@ -487,8 +487,32 @@ textarea:focus {
 }
 
 .platform-content {
-    max-width: 800px;
-    margin: 0 auto;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.campaign-image-left {
+    flex: 0 0 300px;
+    margin-right: 2rem;
+}
+
+.campaign-image-right {
+    flex: 0 0 300px;
+    margin-left: 2rem;
+}
+
+.campaign-img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    object-fit: cover;
+}
+
+.platform-text {
+    flex: 1;
+    min-width: 0;
 }
 
 .platform-text {
@@ -498,4 +522,26 @@ textarea:focus {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     line-height: 1.8;
     color: var(--text-color);
+}
+
+@media (max-width: 1200px) {
+    .platform-content,
+    .pros-cons-container {
+        flex-direction: column;
+    }
+
+    .campaign-image-left,
+    .campaign-image-right {
+        flex: 0 0 auto;
+        margin: 1rem 0;
+        max-width: 100%;
+    }
+
+    .campaign-image-left {
+        order: -1;
+    }
+
+    .campaign-image-right {
+        order: 1;
+    }
 }
